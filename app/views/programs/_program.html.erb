@@ -1,0 +1,48 @@
+<div id="<%= dom_id program %>">
+  <p>
+    <strong>Name:</strong>
+    <%= program.name %>
+  </p>
+
+  <p>
+    <strong>Desc:</strong>
+    <%= program.desc %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= program.user_id %>
+  </p>
+  <% program.workouts.each do |workout|%>
+  <div id="workout">
+  <p>
+    <strong>Name:</strong>
+    <%= workout.name %>
+  </p>
+
+  <p>
+    <strong>Desc:</strong>
+    <%= workout.desc %>
+  </p>
+  <% workout.exercises.each do |exercise| %>
+  <div id="exercise">
+  <p>
+    <strong>Name:</strong>
+    <%= exercise.name %>
+  </p>
+
+  <p>
+    <strong>Sets:</strong>
+    <%= exercise.sets %>
+  </p>
+
+  <p>
+    <strong>Reps:</strong>
+    <%= exercise.reps %>
+  </p>
+</div>
+<% end %>
+</div>
+<% end %>
+  
+</div>

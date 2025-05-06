@@ -1,0 +1,33 @@
+<div id="<%= dom_id session %>">
+  <p>
+    <strong>Date:</strong>
+    <%= session.date %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= session.name %>
+  </p>
+  <% session.movements.each do |movement| %>
+
+  <p>
+    <strong>Name:</strong>
+    <%= movement.name %>
+  </p>
+
+  <p>
+    <strong>Notes:</strong>
+    <%= movement.notes %>
+  </p>
+<% if movement.work.nil? %>
+
+<% else %>
+<% JSON.parse(movement.work).each do |set| %>
+  <p>
+    Weight: <%= set["weight"] %>  
+    Reps: <%= set["rep"] %> 
+  </p>
+<% end %>
+<% end %>
+<% end %>
+</div>
