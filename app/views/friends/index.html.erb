@@ -18,7 +18,7 @@
           <p>Request Sent!</p>
 
         <% else %>
-          <%= button_to "Add Friend", friends_path(friend_id: f.id), method: :post %>
+          <%= button_to "Add Friend", friends_path(friend: f.id), method: :post %>
         <% end %>
     <% end %>
 <% end %>
@@ -29,7 +29,7 @@
     <% @requests.each do |r| %>
         <%=  r.user.email %> 
         <%= button_to "Accept", friend_path(r.id), method: :patch%>
-        <%= button_to "Reject", friend_path(cf.id), method: :delete, data: {turbo: false}%>
+        <%= button_to "Reject", friend_path(r.id), method: :delete, data: {turbo: false}%>
     <% end %>
   <% end %>
 </div>
