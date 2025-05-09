@@ -19,7 +19,11 @@ Rails.application.routes.draw do
     resources :movements
   end
 
+  resources :friends, only: [ :create, :index, :update, :destroy ]
+
   root to: "home#index"
+
+  get "profile", to: "home#profile", as: "profile"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

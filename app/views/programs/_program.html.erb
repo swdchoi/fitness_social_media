@@ -1,48 +1,50 @@
-<div id="<%= dom_id program %>">
-  <p>
-    <strong>Name:</strong>
-    <%= program.name %>
-  </p>
+<div id="<%= dom_id program %>" class="container my-4">
+  <div class="mb-4">
+    <h3 class="mb-2">Program Details</h3>
+    <div class="row">
+      <div class="col-md-4">
+        <strong>Name:</strong>
+        <p><%= program.name %></p>
+      </div>
+      <div class="col-md-8">
+        <strong>Description:</strong>
+        <p><%= program.desc %></p>
+      </div>
+    </div>
+  </div>
 
-  <p>
-    <strong>Desc:</strong>
-    <%= program.desc %>
-  </p>
+  <% program.workouts.each_with_index do |workout, i| %>
+    <div class="border rounded p-3 mb-4">
+      <h5 class="mb-3">Workout <%= i + 1 %></h5>
+      <%= link_to "Log Session", new_session_path(workout_id: workout), class:"btn btn-primary" %>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Name:</strong>
+          <p><%= workout.name %></p>
+        </div>
+        <div class="col-md-6">
+          <strong>Description:</strong>
+          <p><%= workout.desc %></p>
+        </div>
+      </div>
 
-  <p>
-    <strong>User:</strong>
-    <%= program.user_id %>
-  </p>
-  <% program.workouts.each do |workout|%>
-  <div id="workout">
-  <p>
-    <strong>Name:</strong>
-    <%= workout.name %>
-  </p>
-
-  <p>
-    <strong>Desc:</strong>
-    <%= workout.desc %>
-  </p>
-  <% workout.exercises.each do |exercise| %>
-  <div id="exercise">
-  <p>
-    <strong>Name:</strong>
-    <%= exercise.name %>
-  </p>
-
-  <p>
-    <strong>Sets:</strong>
-    <%= exercise.sets %>
-  </p>
-
-  <p>
-    <strong>Reps:</strong>
-    <%= exercise.reps %>
-  </p>
-</div>
-<% end %>
-</div>
-<% end %>
-  
+      <% if workout.exercises.any? %>
+        <div class="mt-3">
+          <h6>Exercises</h6>
+          <div class="row fw-bold border-bottom pb-1 mb-2">
+            <div class="col-md-4">Name</div>
+            <div class="col-md-4">Sets</div>
+            <div class="col-md-4">Reps</div>
+          </div>
+          <% workout.exercises.each do |exercise| %>
+            <div class="row mb-2">
+              <div class="col-md-4"><%= exercise.name %></div>
+              <div class="col-md-4"><%= exercise.sets %></div>
+              <div class="col-md-4"><%= exercise.reps %></div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>

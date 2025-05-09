@@ -1,9 +1,11 @@
 <% content_for :title, "New session" %>
 
 <h1>New session</h1>
-
+<% if @workout %>
+<%= render "workoutform", session: @session %>
+<% else %>
 <%= render "form", session: @session %>
-
+<% end %>
 <br>
 
 <div>

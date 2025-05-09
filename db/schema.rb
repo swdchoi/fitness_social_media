@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_16_152934) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_08_083006) do
   create_table "exercises", force: :cascade do |t|
     t.string "name"
     t.integer "sets"
@@ -20,6 +20,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_152934) do
     t.string "reps"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
   create_table "movements", force: :cascade do |t|
     t.string "name"
     t.text "notes"
@@ -27,6 +37,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_152934) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "session_id"
+    t.integer "exercise_id"
+    t.index ["exercise_id"], name: "index_movements_on_exercise_id"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -43,6 +55,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_152934) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "workout_id"
+    t.index ["workout_id"], name: "index_sessions_on_workout_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -64,4 +78,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_152934) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "movements", "exercises"
+  add_foreign_key "sessions", "workouts"
 end

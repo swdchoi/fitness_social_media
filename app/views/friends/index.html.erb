@@ -1,0 +1,59 @@
+
+<%= form_with url: friends_path, method: :get, local: true do |f| %>
+  <div class="mb-3">
+    <%= f.label :query, "Find Friends", class: "form-label" %>
+    <%= f.text_field :query, class: "form-control", placeholder: "Search by name or email" %>
+  </div>
+  <%= f.submit "Search", class: "btn btn-primary" %>
+<% end %>
+
+<div>
+<% if @friends %>
+    <% @friends.each do |f| %>
+        <%=  f.email %> 
+        <% if @currentfriends.include?(f)  %>
+          <p>Already Friends</p>
+
+        <% elsif current_user.friendships.exists?(friend: f, status: 0) %>
+          <p>Request Sent!</p>
+
+        <% else %>
+          <%= button_to "Add Friend", friends_path(friend_id: f.id), method: :post %>
+        <% end %>
+    <% end %>
+<% end %>
+</div>
+
+<div>
+  <% if @requests.present? %>
+    <% @requests.each do |r| %>
+        <%=  r.user.email %> 
+        <%= button_to "Accept", friend_path(r.id), method: :patch%>
+        <%= button_to "Reject", friend_path(cf.id), method: :delete, data: {turbo: false}%>
+    <% end %>
+  <% end %>
+</div>
+
+<div>
+<% if @currentfriends %>
+    <% @currentfriends.each do |cf| %>
+        <%=  cf.email %> 
+        <%= button_to "Remove Friend", friend_path(cf.id), method: :delete, data: {turbo: false}%>
+    <% end %>
+<% end %>
+</div>
+
+
+<% @users.each do |u| %>
+<div>
+  email: <%= u.email %>
+    <% u.friendships.each do |f| %>
+      user1: <%= f.user.email %>
+     friend1: <%= f.friend.email %>  <%= f.status %>
+    <% end %>
+    <% u.inverse_friendships.each do |f| %>
+     user2: <%= f.user.email %>
+     friend2: <%= f.friend.email %> <%= f.status %>
+    <% end %>
+</div>
+<% end %>

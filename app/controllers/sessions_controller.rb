@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
   # GET /sessions/new
   def new
     @session = current_user.sessions.new
+    @workout = Workout.find(params[:workout_id])
     @session.movements.build
   end
 
@@ -66,6 +67,6 @@ class SessionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def session_params
-      params.require(:session).permit(:date, :name, movements_attributes: [ :session_id, :id, :name, :notes, :work ])
+      params.require(:session).permit(:date, :name, :workout_id, movements_attributes: [ :session_id, :id, :name, :notes, :work, :exercise_id ])
     end
 end

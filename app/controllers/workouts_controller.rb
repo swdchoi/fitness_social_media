@@ -8,6 +8,8 @@ class WorkoutsController < ApplicationController
 
   # GET /workouts/1 or /workouts/1.json
   def show
+    @program = Program.find(params[:program_id])
+    render "programs/workouts/show"
   end
 
   # GET /workouts/new
