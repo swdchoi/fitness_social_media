@@ -1,0 +1,7 @@
+<%=turbo_stream.append "workouts" do%>
+<%= render "programs/workouts/workout", workout: @workout%>
+<% end %>
+
+<%= turbo_stream.replace "hi" do %>
+  <%= render "programs/workouts/form", program: @program, workout: @workoutn %>
+<% end %>

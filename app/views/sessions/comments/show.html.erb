@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render "sessions/comments/comment", comment: @comment, session: @session %>
+
+<div>
+  <%= link_to "Edit this comment", edit_session_comment_path(@session, @comment) %> |
+  <%= button_to "Destroy this comment", session_comment_path(@session, @comment), method: :delete %>
+</div>

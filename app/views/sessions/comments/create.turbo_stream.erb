@@ -1,0 +1,7 @@
+<%= turbo_stream.append "comment_container_#{@session.id}" do %>
+<%= render "sessions/comments/comment", comment:@comment %>
+<% end %>
+
+<%= turbo_stream.replace "new_comment" do %>
+<%= render "sessions/comments/form", session: @session, comment: @commentn %>
+<% end %>

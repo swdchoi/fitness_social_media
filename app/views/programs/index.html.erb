@@ -1,16 +1,23 @@
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Programs" %>
+<div class="card m-1 m-lg-5">
+  <div class="card-header">
+    <h1>Programs</h1>
+  </div>
 
-<h1>Programs</h1>
+  <div id="programs" class="card-body">
+    <% @programs.each do |program| %>
+    <div class="row">
+      <%= render "programname", program: program %>
+      <div class="col-4">
+      <%= link_to "Show this program", program, class:"btn btn-outline-secondary" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
 
-<div id="programs">
-  <% @programs.each do |program| %>
-    <%= render "programname", program: program %>
-    <p>
-      <%= link_to "Show this program", program %>
-    </p>
-  <% end %>
 </div>
-
-<%= link_to "New program", new_program_path %>
+<div class="m-2">
+  <%= link_to "New program", new_program_path, class:"btn btn-outline-primary" %>
+</div>

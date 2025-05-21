@@ -1,11 +1,8 @@
 <% content_for :title, "New exercise" %>
 
 <h1>New exercise</h1>
-
-<%= render "form", exercise: @exercise %>
-
+<%= turbo_frame_tag "new_#{@workout.id}" do%>
+<%= render "programs/workouts/exercises/form", program: @program, workout: @workout, exercise: @exercise %>
+<% end %>
 <br>
 
-<div>
-  <%= link_to "Back to exercises", exercises_path %>
-</div>

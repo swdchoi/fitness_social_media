@@ -60,4 +60,14 @@ export default class extends Controller {
     })
     
   }
+
+  removesession (e) {
+    const ses = e.target.closest(".session")
+    ses.remove()
+  }
+
+  removeset(e) {
+    const move = e.target.closest(".work-set")
+    move.remove();
+  }
 }

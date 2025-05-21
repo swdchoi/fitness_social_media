@@ -1,0 +1,7 @@
+<%= turbo_stream.append "workout#{@workout.id}" do %>
+<%= render "/programs/workouts/exercises/exercise", exercise: @exercise %>
+<% end %>
+
+<%= turbo_stream.replace "new_#{@workout.id}" do %>
+<%= render "programs/workouts/exercises/form", workout: @workout, exercises: @exercisesn%>
+<% end %>

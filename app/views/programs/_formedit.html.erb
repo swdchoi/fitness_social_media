@@ -1,0 +1,141 @@
+<div data-controller="programcreate" class="m-5">
+<%= form_with(model: program) do |form| %>
+  <% if program.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(program.errors.count, "error") %> prohibited this program from being saved:</h2>
+      <ul>
+        <% program.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Program name & description -->
+  <div class="mb-3">
+    <%= form.label :name, style: "display: block;" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :desc, style: "display: block;" %>
+    <%= form.textarea :desc, class: "form-control" %>
+  </div>
+
+  <!-- Workouts section -->
+  <div class="workoutbutton">
+    <div data-programcreate-target="workoutcontainer" class="workoutcontainer">
+      <input data-programcreate-target="workoutindex" class="workoutindex" type="hidden" value="1">
+
+      <%= form.fields_for :workouts do |work| %>
+        <input class="workoutnumber" type="hidden" value="0">
+
+        <div class="border rounded p-3 mb-4">
+          <h4>Workout</h4>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <%= work.label :name, style: "display: block;" %>
+              <%= work.text_field :name, class: "form-control" %>
+            </div>
+            <div class="col-md-6">
+              <%= work.label :desc, style: "display: block;" %>
+              <%= work.textarea :desc, class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="exercisebutton">
+            <div class="exercisecontainer border p-2 mb-3 rounded">
+              <%= work.fields_for :exercises do |ex| %>
+                <input class="exerciseindex" type="hidden" value="1">
+                <div class="exercise">
+                  <div class="row">
+                    <div class="col-4">
+                      <%= ex.label :name, style: "display: block;" %>
+                      <%= ex.text_field :name, class: "form-control" %>
+                    </div>
+                    <div class="col-4">
+                      <%= ex.label :sets, style: "display: block;" %>
+                      <%= ex.number_field :sets, class: "form-control" %>
+                    </div>
+                    <div class="col-4">
+                      <%= ex.label :reps, style: "display: block;" %>
+                      <%= ex.text_field :reps, class: "form-control" %>
+                    </div>
+
+                  </div>
+                </div>
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Add workout button -->
+  </div>
+
+  <div>
+    <%= form.submit "Save Program", class: "btn btn-success" %>
+  </div>
+<% end %>
+
+<template data-programcreate-target="workouttemplate">
+  <div class="workoutcontainer border rounded p-3 my-3">
+    <input class="workoutnumber" type="hidden">
+    
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="program_workouts_attributes_PROGRAM_INDEX_name" class="form-label">Workout Name</label>
+        <input type="text" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][name]" id="program_workouts_attributes_PROGRAM_INDEX_name">
+      </div>
+      <div class="col-md-6">
+        <label for="program_workouts_attributes_PROGRAM_INDEX_desc" class="form-label">Description</label>
+        <textarea class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][desc]" id="program_workouts_attributes_PROGRAM_INDEX_desc"></textarea>
+      </div>
+    </div>
+
+    <div class="exercisecontainer">
+      <input type="hidden" class="exerciseindex" value="1">
+      <!-- First exercise -->
+      <div class="exercise row mb-2">
+        <div class="col-4">
+          <label class="form-label" for="program_workouts_attributes_PROGRAM_INDEX_exercises_attributes_0_name">Exercise Name</label>
+          <input type="text" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][exercises_attributes][0][name]" id="program_workouts_attributes_PROGRAM_INDEX_exercises_attributes_0_name">
+        </div>
+        <div class="col-4">
+          <label class="form-label" for="program_workouts_attributes_PROGRAM_INDEX_exercises_attributes_0_sets">Sets</label>
+          <input type="number" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][exercises_attributes][0][sets]" id="program_workouts_attributes_PROGRAM_INDEX_exercises_attributes_0_sets">
+        </div>
+        <div class="col-4">
+          <label class="form-label" for="program_workouts_attributes_PROGRAM_INDEX_exercises_attributes_0_reps">Reps</label>
+          <input type="text" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][exercises_attributes][0][reps]" id="program_workouts_attributes_PROGRAM_INDEX_exercises_attributes_0_reps">
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-programcreate-target="exercisetemplate">
+  <div class="exercise row mb-2">
+    <div class="col-4">
+      <label class="form-label">Exercise Name</label>
+      <input type="text" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][exercises_attributes][EXERCISE_INDEX][name]">
+    </div>
+
+    <div class="col-4">
+      <label class="form-label">Sets</label>
+      <input type="number" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][exercises_attributes][EXERCISE_INDEX][sets]">
+    </div>
+
+    <div class="col-4">
+      <label class="form-label">Reps</label>
+      <input type="text" class="form-control" name="program[workouts_attributes][PROGRAM_INDEX][exercises_attributes][EXERCISE_INDEX][reps]">
+    </div>
+
+  </div>
+</template>
+
+</div>

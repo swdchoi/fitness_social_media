@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_08_083006) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_16_085500) do
+  create_table "comments", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "session_id"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "exercises", force: :cascade do |t|
     t.string "name"
     t.integer "sets"
@@ -28,6 +36,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_08_083006) do
     t.integer "status"
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
     t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "session_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_likes_on_session_id"
+    t.index ["user_id", "session_id"], name: "index_likes_on_user_id_and_session_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "movements", force: :cascade do |t|
@@ -81,6 +99,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_08_083006) do
 
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "likes", "sessions"
+  add_foreign_key "likes", "users"
   add_foreign_key "movements", "exercises"
   add_foreign_key "sessions", "workouts"
 end

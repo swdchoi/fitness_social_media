@@ -65,7 +65,7 @@
 
                     <div class="col-md-3">
                       <%= ex.label :action, style: "display: block;" %>
-                      <button type="button" class="btn btn-secondary">Remove</button>
+                      <button type="button" data-action="click->programcreate#removeexercise" class="btn btn-secondary">Remove</button>
                     </div>
                   
                   </div>
@@ -122,11 +122,12 @@
 
         <div class="col-md-3 d-flex flex-column">
           <label class="form-label">Action</label>
-          <button type="button" style="width:80px;" class="btn btn-secondary">Remove</button>
+          <button type="button" data-action="click->programcreate#removeexercise" style="width:80px;" class="btn btn-secondary">Remove</button>
         </div>
 
       </div>
     </div>
+    <button type="button" data-action="click->programcreate#removeworkout" class="btn btn-secondary">Delete Workout</button>
   </div>
 </template>
 
@@ -149,7 +150,7 @@
 
     <div class="col-md-3 d-flex flex-column">
       <label class="form-label">Action</label>
-      <button type="button" style="width:80px;" class="btn btn-secondary">Remove</button>
+      <button type="button" style="width:80px;" data-action="click->programcreate#removeexercise" class="btn btn-secondary col-md-3 d-flex flex-column">Remove</button>
     </div>
   </div>
 </template>

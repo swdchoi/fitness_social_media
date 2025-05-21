@@ -12,4 +12,9 @@ class User < ApplicationRecord
 
   has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
   has_many :inverse_friends, through: :inverse_friendships, source: :user
+
+  has_many :likes
+  has_many :liked_posts, through: :likes, source: :session
+
+  has_many :comments, dependent: :destroy
 end

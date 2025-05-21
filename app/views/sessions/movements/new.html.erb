@@ -1,11 +1,8 @@
 <% content_for :title, "New movement" %>
 
 <h1>New movement</h1>
-
-<%= render "form", movement: @movement %>
-
+<%= turbo_frame_tag "new_movement" do%>
+<%= render "sessions/movements/form", session: @session, movement: @movement %>
+<% end %>
 <br>
 
-<div>
-  <%= link_to "Back to movements", movements_path %>
-</div>

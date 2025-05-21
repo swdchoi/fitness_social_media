@@ -1,4 +1,61 @@
 
-<%= link_to "Your Programs", programs_path, class:"btn btn-outline-primary"%>
-<%= link_to "Your Sessions", sessions_path, class:"btn btn-outline-success"%>
+        <div class="m-2 d-flex justify-content-evenly">
+            <%= link_to "Your Programs", programs_path, class:"btn btn-outline-primary"%>
+            <%= link_to "Your Sessions", sessions_path, class:"btn btn-outline-success"%>
+        </div>
 
+<div class="card m-1 m-md-5">
+    <div class="card-header">
+        <h1>Sessions</h1>
+    </div>
+    <div class="card-body">
+        <% if @sessions.present?%>
+            <% @sessions.each do |s|%>
+                <div class="card">
+                        <div class="card-header">
+                            <%= s.user.email %>
+                        </div>
+                    <div class="card-body">
+                        <div>
+                            <h1><%= s.name %></h1>
+                        </div>
+                        <div class="row"> 
+                            <% s.movements.each do |m| %>
+                            <div class="cold-12 col-md-4">
+                                <h3><%= m.name %></h3>
+                                <p>"<%= m&.notes || "no notes"%>"</p>
+                                <% weightreps = JSON.parse(m.work)%>
+                                <div>Sets: <%= weightreps.count %></div>
+                                <% weightreps.each_with_index do |set| %>
+                                 <div>
+                                    <%= set["weight"]%> kg
+                                    reps: <%= set["rep"]%>
+                                 </div>
+                                <% end %>
+                            </div>
+                            <% end %>
+                        </div>
+
+                        <div class="d-flex mt-2">
+                            <div class="mt-3">like: <%= s.likes.count%></div>
+
+                            <% if s.likes.find_by(user: current_user) %>
+                                <% like = s.likes.find_by(user: current_user) %>
+                                <%= button_to "remove like", session_like_path(s, like), method: :delete, class:"btn btn-secondary m-2"%>
+                            <% else %>
+                                <%= button_to "like", session_likes_path(s), class:"btn btn-primary m-2"%>
+                            <% end %>
+                        </div>
+
+                        <%= link_to "Show this session", s, class:"btn  btn-secondary mx-2" %>
+
+
+                        <% s.likes.each do |l| %>
+                            liker: <%= l.user.email %>
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+<div>

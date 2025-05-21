@@ -14,7 +14,11 @@ class WorkoutsController < ApplicationController
 
   # GET /workouts/new
   def new
-    @workout = Workout.new
+    @program = current_user.programs.find(params[:program_id])
+    @workout = @program.workouts.build
+    @workout.exercises.build
+
+    render "programs/workouts/new"
   end
 
   # GET /workouts/1/edit
@@ -23,12 +27,16 @@ class WorkoutsController < ApplicationController
 
   # POST /workouts or /workouts.json
   def create
-    @workout = Workout.new(workout_params)
+
+    @program = current_user.programs.find(params[:program_id])
+    @workout = @program.workouts.new(workout_params)
 
     respond_to do |format|
       if @workout.save
         format.html { redirect_to @workout, notice: "Workout was successfully created." }
-        format.json { render :show, status: :created, location: @workout }
+        @workoutn = @program.workouts.build
+        @workoutn.exercises.build
+        format.turbo_stream {render "programs/workouts/create"}
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @workout.errors, status: :unprocessable_entity }
@@ -54,19 +62,19 @@ class WorkoutsController < ApplicationController
     @workout.destroy!
 
     respond_to do |format|
-      format.html { redirect_to workouts_path, status: :see_other, notice: "Workout was successfully destroyed." }
-      format.json { head :no_content }
+      format.turbo_stream { render "programs/workouts/destroy" }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_workout
-      @workout = Workout.find(params.expect(:id))
+      @program = current_user.programs.find(params[:program_id])
+      @workout = @program.workouts.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
     def workout_params
-      params.expect(workout: [ :name, :desc, :program_id ])
+      params.require(:workout).permit(:name, :desc, :program_id, exercises_attributes: [ :id, :name, :sets, :reps, :workout_id ] )
     end
 end

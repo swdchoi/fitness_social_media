@@ -1,4 +1,4 @@
-<div id="<%= dom_id exercise %>">
+<%= turbo_frame_tag "exercise_#{exercise.id}" do %>
   <p>
     <strong>Name:</strong>
     <%= exercise.name %>
@@ -13,10 +13,5 @@
     <strong>Reps:</strong>
     <%= exercise.reps %>
   </p>
+<% end %>
 
-  <p>
-    <strong>Workout:</strong>
-    <%= exercise.workout_id %>
-  </p>
-
-</div>

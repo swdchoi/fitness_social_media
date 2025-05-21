@@ -12,7 +12,10 @@ class MovementsController < ApplicationController
 
   # GET /movements/new
   def new
-    @movement = Movement.new
+    @session = Session.find(params[:session_id])
+    @movement = @session.movements.build
+
+    render "/sessions/movements/new"
   end
 
   # GET /movements/1/edit
@@ -21,12 +24,14 @@ class MovementsController < ApplicationController
 
   # POST /movements or /movements.json
   def create
-    @movement = Movement.new(movement_params)
+    @session = Session.find(params[:session_id])
+    @movement = @session.movements.new(movement_params)
 
     respond_to do |format|
       if @movement.save
         format.html { redirect_to @movement, notice: "Movement was successfully created." }
-        format.json { render :show, status: :created, location: @movement }
+        @movementn = @session.movements.build
+        format.turbo_stream { render "sessions/movements/create" }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @movement.errors, status: :unprocessable_entity }
@@ -53,14 +58,15 @@ class MovementsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to movements_path, status: :see_other, notice: "Movement was successfully destroyed." }
-      format.json { head :no_content }
+      format.turbo_stream {render "/sessions/movements/destroy" }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_movement
-      @movement = Movement.find(params.expect(:id))
+      @session = Session.find(params[:session_id])
+      @movement = @session.movements.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

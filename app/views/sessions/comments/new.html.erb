@@ -1,0 +1,7 @@
+<% content_for :title, "New comment" %>
+
+<h1>New comment</h1>
+<%= turbo_frame_tag "new_comment" do %>
+<%= render "sessions/comments/form", comment: @comment, session: @session %>
+<% end %>
+<br>

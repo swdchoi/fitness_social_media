@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  mount ActionCable.server => "/cable"
+
   authenticated :user do
     root to: "home#main", as: :authenticated_root
   end
@@ -15,8 +18,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :chats
+
   resources :sessions do
     resources :movements
+    resources :likes, only: [ :create, :destroy ]
+    resources :comments
   end
 
   resources :friends, only: [ :create, :index, :update, :destroy ]

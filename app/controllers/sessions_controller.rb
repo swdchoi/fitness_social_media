@@ -8,12 +8,15 @@ class SessionsController < ApplicationController
 
   # GET /sessions/1 or /sessions/1.json
   def show
+    @comments = @session.comments.all
   end
 
   # GET /sessions/new
   def new
     @session = current_user.sessions.new
-    @workout = Workout.find(params[:workout_id])
+    if params[:workout_id].present?
+      @workout = Workout.find(params[:workout_id])
+    end
     @session.movements.build
   end
 

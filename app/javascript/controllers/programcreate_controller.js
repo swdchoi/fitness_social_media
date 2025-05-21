@@ -34,4 +34,15 @@ export default class extends Controller {
     exerciseIndexInput.value = parseInt(exerciseIndex) + 1;
   }
 
+  removeworkout (e) {
+    console.log("workout")
+    const workout = e.target.closest(".workoutcontainer")
+    workout.remove()
+  }
+
+  removeexercise (e) {
+    console.log("ex")
+    const exercise = e.target.closest(".exercise")
+    exercise.remove()
+  }
 }

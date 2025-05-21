@@ -12,7 +12,9 @@
     </div>
   </div>
 
+  <div id="sessionmove">
   <% session.movements.each_with_index do |movement, i| %>
+    <%= turbo_frame_tag "movement_#{movement.id}" do %>
     <div class="border rounded p-3 mb-4 ">
       <h5 class="mb-3">Movement <%= i + 1 %></h5>
 
@@ -43,5 +45,39 @@
         </div>
       <% end %>
     </div>
+        <%= button_to "Delete Movement", session_movement_path(session, movement), method: :delete, class:"btn btn-secondary"%>
+    <% end %>
   <% end %>
+  </div>
+  <%= link_to "Add Movement", new_session_movement_path(session), class:"btn btn-primary my-2", data: {turbo_frame: "new_movement"}%>
+  <%= turbo_frame_tag "new_movement" %>
+  
+  <div>
+    <%= session.likes.count %>
+    <% session.likes.each do |s|%>
+      <%= s.user.email %>
+    <% end %>
+    
+    <%= button_to "fist", session_likes_path(session), class:"btn btn-primary"%>
+
+    <% if session.likes.find_by(user: current_user) %>
+      <% like = session.likes.find_by(user: current_user) %>
+      <%= button_to "remove fist", session_like_path(session, like), method: :delete, class:"btn btn-secondary"%>
+    <% end %>
+  </div>
+
+  <div>
+      <%= link_to "Add Comment", new_session_comment_path(session), type:"button", class:"btn btn-warning", data: {turbo_frame: "new_comment" } %>
+    <div id="comment_container_<%=session.id%>">
+      <% session.comments.each do |c| %>
+          <div>
+            <%= c.comment %>
+            <%= c.user.email %>
+            <%= link_to "Show Comment", session_comment_path(session, c), class:"btn btn-secondary"%>
+          </div>
+      <% end %>
+    </div>
+      <%= turbo_frame_tag "new_comment" %>
+  </div>
+
 </div>

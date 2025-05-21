@@ -24,7 +24,7 @@
     </div>
 
     <h4>Movements</h4>
-    <div data-sessioncreate-target="sessioncontainer">
+    <div data-sessioncreate-target="sessioncontainer" class="session">
       <%= form.fields_for :movements do |mov| %>
         <div class="border rounded p-3 mb-4">
           <div class="row mb-3">
@@ -53,16 +53,20 @@
                 <% end %>
               </div>
               <%= mov.hidden_field :work, class: "sets" %>
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-action="click->sessioncreate#addset">Add Set</button>
             </div>
           <% else %>
             <div class="setting">
               <div class="setcontainer0 set">
                 <div class="work-set row mb-2">
-                  <div class="col-6">
+                  <div class="col-4">
                     <input type="number" class="form-control weight-input" placeholder="Weight">
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                     <input type="number" class="form-control reps-input" placeholder="Reps">
+                  </div>
+                  <div class="col-4">
+                    <button type="button" class="btn btn-secondary" data-action="click->sessioncreate#removeset">Remove</button>
                   </div>
                 </div>
               </div>
@@ -73,15 +77,17 @@
         </div>
       <% end %>
     </div>
-
-    <button type="button" class="btn btn-outline-primary mb-3" data-action="click->sessioncreate#addsession">Add Movement</button>
-
+      <% if form.object.persisted? %>
+      <% else %>
+        <button type="button" class="btn btn-outline-primary mb-3" data-action="click->sessioncreate#addsession">Add Movement</button>
+      <% end %>
     <div>
       <%= form.submit "Save", class: "btn btn-success", data: { action: "click->sessioncreate#createjson" } %>
     </div>
   <% end %>
 
 <template data-sessioncreate-target="sessiontemplate">
+  <div class="session">
   <div class="border rounded p-3 my-3">
     <div class="row mb-3">
       <div class="col-md-6">
@@ -97,29 +103,39 @@
     <div class="setting">
       <div class="setcontainerMOVE_INDEX set">
         <div class="work-set row mb-2">
-          <div class="col-6">
+          <div class="col-4">
             <input type="number" class="form-control weight-input" placeholder="Weight">
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <input type="number" class="form-control reps-input" placeholder="Reps">
           </div>
+          <div class="col-4">
+            <button type="button" class="btn btn-secondary" data-action="click->sessioncreate#removeset">Remove</button>
+           </div>
         </div>
       </div>
       <input type="hidden" class="sets" name="session[movements_attributes][MOVE_INDEX][work]" id="session_movements_attributes_MOVE_INDEX_work">
       <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-action="click->sessioncreate#addset">Add Set</button>
+
     </div>
+            <button type="button" class="btn btn-secondary mt-2" data-action="click->sessioncreate#removesession">Delete Session</button>
+  </div>
+
   </div>
 </template>
 
 <template data-sessioncreate-target="settemplate">
     <div class="work-set row mb-2">
-      <div class="col-6">
+      <div class="col-4">
         <input type="number" class="form-control weight-input" placeholder="Weight">
       </div>
-      <div class="col-6">
+      <div class="col-4">
         <input type="number" class="form-control reps-input" placeholder="Reps">
       </div>
-    </div>
+      <div class="col-4">
+        <button type="button" class="btn btn-secondary" data-action="click->sessioncreate#removeset">Remove</button>
+      </div>
+  </div>
 </template>
 
 </div>

@@ -1,8 +1,8 @@
-<%= form_with(model: movement) do |form| %>
+<div data-controller="sessioncreate" class="m-1 m-lg-5">
+<%= form_with(model: [session, movement]) do |mov| %>
   <% if movement.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(movement.errors.count, "error") %> prohibited this movement from being saved:</h2>
-
       <ul>
         <% movement.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,23 +10,76 @@
       </ul>
     </div>
   <% end %>
+    <h4>Movements</h4>
+    <input type="hidden" value="<%=session.id%>" data-sessioncreate-target="sessioncount">
+    <div data-sessioncreate-target="sessioncontainer" class="session">
+        <div class="border rounded p-3 mb-4">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <%= mov.label :name %>
+              <%= mov.text_field :name, class: "form-control" %>
+            </div>
+            <div class="col-md-6">
+              <%= mov.label :notes %>
+              <%= mov.textarea :notes, class: "form-control" %>
+            </div>
+          </div>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
+          <% if mov.object.work %>
+            <div class="setting">
+              <div class="set">
+                <% JSON.parse(mov.object.work).each do |set| %>
+                  <div class="work-set row mb-2">
+                    <div class="col-6">
+                      <input type="number" class="form-control weight-input" placeholder="Weight" value="<%= set["weight"] %>">
+                    </div>
+                    <div class="col-6">
+                      <input type="number" class="form-control reps-input" placeholder="Reps" value="<%= set["rep"] %>">
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+              <%= mov.hidden_field :work, class: "sets" %>
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-action="click->sessioncreate#addset">Add Set</button>
+            </div>
+          <% else %>
+            <div class="setting">
+              <div class="setcontainer0 set">
+                <div class="work-set row mb-2">
+                  <div class="col-4">
+                    <input type="number" class="form-control weight-input" placeholder="Weight">
+                  </div>
+                  <div class="col-4">
+                    <input type="number" class="form-control reps-input" placeholder="Reps">
+                  </div>
+                  <div class="col-4">
+                    <button type="button" class="btn btn-secondary" data-action="click->sessioncreate#removeset">Remove</button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-action="click->sessioncreate#addset">Add Set</button>
+              <%= mov.hidden_field :work, class: "sets" %>
+            </div>
+          <% end %>
+        </div>
+    </div>
+    <div>
+      <%= mov.submit "Save", class: "btn btn-success", data: { action: "click->sessioncreate#createjson" } %>
+    </div>
+  <% end %>
 
-  <div>
-    <%= form.label :notes, style: "display: block" %>
-    <%= form.textarea :notes %>
+<template data-sessioncreate-target="settemplate">
+    <div class="work-set row mb-2">
+      <div class="col-4">
+        <input type="number" class="form-control weight-input" placeholder="Weight">
+      </div>
+      <div class="col-4">
+        <input type="number" class="form-control reps-input" placeholder="Reps">
+      </div>
+      <div class="col-4">
+        <button type="button" class="btn btn-secondary" data-action="click->sessioncreate#removeset">Remove</button>
+      </div>
   </div>
+</template>
 
-  <div>
-    <%= form.label :work, style: "display: block" %>
-    <%= form.text_field :work %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

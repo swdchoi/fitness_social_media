@@ -6,7 +6,7 @@ class FriendsController < ApplicationController
 
   def index
     if params[:query]
-      @friends = User.where(id: params[:query])
+      @friends = User.where(email: params[:query])
     end
 
       @requests = current_user.inverse_friendships.where(status: 0)
